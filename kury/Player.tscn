@@ -1,0 +1,81 @@
+[gd_scene load_steps=22 format=2]
+
+[ext_resource path="res://kury/Player.gd" type="Script" id=1]
+[ext_resource path="res://kury/sprites/idle/kury stay1.png" type="Texture" id=2]
+[ext_resource path="res://kury/sprites/idle/kury stay2.png" type="Texture" id=3]
+[ext_resource path="res://kury/sprites/idle/kury stay3.png" type="Texture" id=4]
+[ext_resource path="res://kury/sprites/run/kury walk1.png" type="Texture" id=5]
+[ext_resource path="res://kury/sprites/run/kury stay2.png" type="Texture" id=6]
+[ext_resource path="res://kury/sprites/run/kury walk2.png" type="Texture" id=7]
+[ext_resource path="res://kury/sprites/throw/kury4.png" type="Texture" id=8]
+[ext_resource path="res://kury/sprites/fumaça/01.png" type="Texture" id=9]
+[ext_resource path="res://kury/sprites/fumaça/02.png" type="Texture" id=10]
+[ext_resource path="res://kury/sprites/fumaça/03.png" type="Texture" id=11]
+[ext_resource path="res://kury/sprites/fumaça/04.png" type="Texture" id=12]
+[ext_resource path="res://kury/sprites/fumaça/05.png" type="Texture" id=13]
+[ext_resource path="res://kury/sprites/fumaça/06.png" type="Texture" id=14]
+[ext_resource path="res://kury/sprites/fumaça/07.png" type="Texture" id=15]
+[ext_resource path="res://kury/sprites/fumaça/08.png" type="Texture" id=16]
+[ext_resource path="res://kury/sprites/fumaça/09.png" type="Texture" id=17]
+[ext_resource path="res://kury/sprites/fumaça/10.png" type="Texture" id=18]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 3 ) ],
+"loop": true,
+"name": "idle",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 6 ) ],
+"loop": true,
+"name": "walk",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 8 ) ],
+"loop": false,
+"name": "throw",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 9 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 18 ) ],
+"loop": true,
+"name": "bomb",
+"speed": 20.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 36.1838, 28.673 )
+
+[sub_resource type="OccluderPolygon2D" id=3]
+polygon = PoolVector2Array( -1.69757, -23.7006, 18.7903, -21.1918, 32.5883, -17.4287, 32.1702, -0.703918, 40.1145, 5.98599, 39.6964, 15.1847, 22.5535, 28.1464, -1.27942, 31.0732, -24.2761, 28.5645, -45.1821, 11.8397, -36.8197, -0.703918, -33.4747, -20.7737, -15.0774, -21.1918 )
+
+[node name="Player" type="Node2D"]
+position = Vector2( 747.49, 343.673 )
+z_index = 1
+
+[node name="PlayerBody" type="KinematicBody2D" parent="."]
+script = ExtResource( 1 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="PlayerBody"]
+position = Vector2( 0, 6 )
+scale = Vector2( 0.2, 0.2 )
+frames = SubResource( 1 )
+animation = "idle"
+frame = 2
+playing = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerBody"]
+position = Vector2( 0, 5 )
+shape = SubResource( 2 )
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="PlayerBody"]
+occluder = SubResource( 3 )
+
+[node name="TimerThrow" type="Timer" parent="PlayerBody"]
+wait_time = 0.2
+one_shot = true
+
+[node name="TimerBomb" type="Timer" parent="PlayerBody"]
+wait_time = 0.5
+one_shot = true
+[connection signal="timeout" from="PlayerBody/TimerThrow" to="PlayerBody" method="_on_Timer_timeout"]
+[connection signal="timeout" from="PlayerBody/TimerBomb" to="PlayerBody" method="_on_TimerBomb_timeout"]

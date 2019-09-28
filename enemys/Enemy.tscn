@@ -1,0 +1,80 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://enemys/Enemy.gd" type="Script" id=1]
+[ext_resource path="res://enemys/sprites/run/jacare2.png" type="Texture" id=2]
+[ext_resource path="res://enemys/sprites/run/jacare1.png" type="Texture" id=3]
+[ext_resource path="res://enemys/sprites/run/jacare3.png" type="Texture" id=4]
+[ext_resource path="res://enemys/sprites/dead/jacare2.png" type="Texture" id=5]
+[ext_resource path="res://enemys/sprites/dead/jacare4.png" type="Texture" id=6]
+[ext_resource path="res://enemys/sprites/dead/jacare5.png" type="Texture" id=7]
+[ext_resource path="res://light/light.png" type="Texture" id=8]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 48, 40 )
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 2 ) ],
+"loop": true,
+"name": "idle",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 3 ), ExtResource( 2 ), ExtResource( 4 ), ExtResource( 2 ) ],
+"loop": true,
+"name": "walk",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ) ],
+"loop": false,
+"name": "dead",
+"speed": 3.0
+} ]
+
+[sub_resource type="OccluderPolygon2D" id=3]
+polygon = PoolVector2Array( -43.9256, -7.30247, -14.9341, -11.9243, -2.32913, -54.7813, 16.5783, -12.7646, 44.7295, -8.56297, 46.8303, 15.8067, 30.4438, 20.4285, 29.1833, 28.8318, 10.696, 28.8318, 7.75485, 50.6805, -9.47195, 50.6805, -14.9341, 29.6722, -31.3206, 27.5713, -30.9005, 19.168, -44.7659, 16.647 )
+
+[node name="Enemy" type="Node2D"]
+script = ExtResource( 1 )
+points = [ Vector2( 0, 0 ) ]
+
+[node name="EnemyBody" type="KinematicBody2D" parent="."]
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyBody"]
+position = Vector2( 0, 10 )
+shape = SubResource( 1 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="EnemyBody"]
+scale = Vector2( 0.3, 0.3 )
+frames = SubResource( 2 )
+animation = "dead"
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="EnemyBody"]
+occluder = SubResource( 3 )
+
+[node name="Light2D" type="Light2D" parent="EnemyBody"]
+position = Vector2( 0, 55 )
+scale = Vector2( 0.8, 0.8 )
+texture = ExtResource( 8 )
+offset = Vector2( 0, 240 )
+color = Color( 1, 1, 1, 0.266667 )
+energy = 0.5
+shadow_enabled = true
+
+[node name="Area2D" type="Area2D" parent="EnemyBody"]
+position = Vector2( 0, 55 )
+scale = Vector2( 0.8, 0.8 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="EnemyBody/Area2D"]
+position = Vector2( -0.583977, 0 )
+polygon = PoolVector2Array( -44.6633, 9.9973, -48.1672, 21.2876, -192.899, 477.719, 189.639, 479.443, 39.2349, -0.124992, -40.1861, 0.264328 )
+
+[node name="RayCast2D" type="RayCast2D" parent="EnemyBody"]
+enabled = true
+cast_to = Vector2( 0, 0 )
+
+[node name="Timer" type="Timer" parent="."]
+[connection signal="body_entered" from="EnemyBody/Area2D" to="." method="_on_Area2D_body_entered"]
+[connection signal="body_exited" from="EnemyBody/Area2D" to="." method="_on_Area2D_body_exited"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
