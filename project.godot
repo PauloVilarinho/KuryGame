@@ -16,8 +16,8 @@ _global_script_class_icons={
 [application]
 
 config/name="Kory"
-run/main_scene="res://Game.tscn"
-config/icon="res://icon.png"
+run/main_scene="res://menus/scenes/Menu.tscn"
+config/icon="res://kury/sprites/idle/kury stay1.png"
 
 [display]
 

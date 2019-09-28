@@ -15,7 +15,7 @@ func _process(delta):
 	get_node("Camera2D/Bombs/Label2").text = "X " + str($Player.get_node("PlayerBody").lifes)
 
 func _on_Timer_timeout():
-	get_tree().reload_current_scene()
+	get_tree().change_scene('res://menus/scenes/GameOver.tscn')
 
 
 func _on_Level1_body_entered(body):

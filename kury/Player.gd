@@ -80,7 +80,7 @@ func die():
 		$CollisionShape2D.disabled = true
 		$TimerBomb.start()
 	else :	
-		get_tree().reload_current_scene()
+		get_tree().change_scene('res://menus/scenes/GameOver.tscn')
 
 
 func _on_Timer_timeout():

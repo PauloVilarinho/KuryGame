@@ -49,6 +49,7 @@ extents = Vector2( 36.1838, 28.673 )
 polygon = PoolVector2Array( -1.69757, -23.7006, 18.7903, -21.1918, 32.5883, -17.4287, 32.1702, -0.703918, 40.1145, 5.98599, 39.6964, 15.1847, 22.5535, 28.1464, -1.27942, 31.0732, -24.2761, 28.5645, -45.1821, 11.8397, -36.8197, -0.703918, -33.4747, -20.7737, -15.0774, -21.1918 )
 
 [node name="Player" type="Node2D"]
+editor/display_folded = true
 position = Vector2( 747.49, 343.673 )
 z_index = 1
 
@@ -60,7 +61,7 @@ position = Vector2( 0, 6 )
 scale = Vector2( 0.2, 0.2 )
 frames = SubResource( 1 )
 animation = "idle"
-frame = 2
+frame = 3
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerBody"]
